@@ -59,8 +59,7 @@ function App() {
   }, []);
 
   return (
-    <div className="container-md">
-      <div>App</div>
+    <div className="inner-container">
       <Messages messages={messages} />
       <div ref={toBootom}>
         <MessageForm />

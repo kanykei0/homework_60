@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MessageMutation } from "../../type";
+import { Button, Form } from "react-bootstrap";
 
 const MessageForm = () => {
   const [message, setMessage] = useState<MessageMutation>({
@@ -26,28 +27,34 @@ const MessageForm = () => {
   };
 
   return (
-    <form onSubmit={onFormSubmit}>
-      <label>
-        Message:
-        <input
-          type="text"
-          name="message"
-          value={message.message}
-          onChange={changeText}
-        />
-      </label>
-      <br />
-      <label>
-        Author:
-        <input
-          type="text"
-          name="author"
-          value={message.author}
-          onChange={changeText}
-        />
-      </label>
-      <br />
-      <button type="submit">Send Message</button>
+    <form onSubmit={onFormSubmit} className="row">
+      <div className="col">
+        <label>
+          Message:
+          <Form.Control
+            type="text"
+            name="message"
+            value={message.message}
+            onChange={changeText}
+          />
+        </label>
+      </div>
+      <div className="col">
+        <label>
+          Author:
+          <Form.Control
+            type="text"
+            name="author"
+            value={message.author}
+            onChange={changeText}
+          />
+        </label>
+      </div>
+      <div className="col d-flex align-items-end">
+        <Button variant="success" className="mt-auto">
+          Send
+        </Button>
+      </div>
     </form>
   );
 };
