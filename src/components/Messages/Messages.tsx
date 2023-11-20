@@ -14,6 +14,7 @@ const Messages: React.FC<Props> = ({ messages }) => {
       date.getMonth() + 1
     }.${date.getFullYear()}`;
   };
+
   return (
     <>
       <div className="d-flex flex-column">

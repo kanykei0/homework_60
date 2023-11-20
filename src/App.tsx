@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import Messages from "./components/Messages/Messages";
 import { MessageConf } from "./type";
 import MessageForm from "./components/MessageForm/MessageForm";
+import Preloader from "./components/Preloader/Preloader";
 
 const URL = "http://146.185.154.90:8000/messages";
 
 function App() {
   const [messages, setMessages] = useState<MessageConf[]>([]);
+  const [preloader, setPreloader] = useState(false);
+  const [loadComplete, setLoadComplete] = useState(false);
 
   const toBootom = useRef<HTMLDivElement>(null);
 
@@ -29,15 +32,22 @@ function App() {
       }));
       return newMessages;
     }
-    return messages;
+    return [];
   };
+
+  useEffect(() => {
+    if (!loadComplete) {
+      setPreloader(true);
+    }
+  }, [loadComplete]);
 
   const getLastMessages = async () => {
     try {
       const data = await fetchData(URL);
       setMessages(data);
-    } catch (error) {
-      console.log(error);
+      setLoadComplete(true);
+    } finally {
+      setPreloader(false);
     }
   };
 
@@ -60,6 +70,7 @@ function App() {
 
   return (
     <div className="inner-container">
+      <Preloader show={preloader} />
       <Messages messages={messages} />
       <div ref={toBootom}>
         <MessageForm />
