@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Messages from "./components/Messages/Messages";
 import { MessageConf } from "./type";
 import MessageForm from "./components/MessageForm/MessageForm";
@@ -7,6 +7,18 @@ const URL = "http://146.185.154.90:8000/messages";
 
 function App() {
   const [messages, setMessages] = useState<MessageConf[]>([]);
+
+  const toBootom = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (toBootom.current) {
+      toBootom.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const fetchData = async (url: string) => {
     const response = await fetch(url);
@@ -49,8 +61,10 @@ function App() {
   return (
     <div className="container-md">
       <div>App</div>
-      <MessageForm />
       <Messages messages={messages} />
+      <div ref={toBootom}>
+        <MessageForm />
+      </div>
     </div>
   );
 }
